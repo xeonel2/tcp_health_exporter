@@ -1,0 +1,4 @@
+---
+
+services: 
+ - {servicename: "google", host: "google.com", "port":"80","metricname":"googlehealthstatus","help":"HealthStatus for Google"}
