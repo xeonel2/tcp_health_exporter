@@ -52,7 +52,6 @@ func heartBeat(servicename string, host string, port string) {
 	err = c.CheckAddr(host+":"+port, timeout)
 	switch err {
 	case tcp.ErrTimeout:
-		fmt.Println("Connect to " + host + " timed out")
 		GaugeMap[servicename].WithLabelValues(hostname, "timeout").Set(1)
 
 	case nil:
