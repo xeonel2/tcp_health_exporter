@@ -6,10 +6,16 @@ Exposes health check metrics of TCP endpoint(s) for prometheus.
 
 Uses TCP Shaker by Tevino. So it's silent and performs TCP handshakes without ACK.
 
+The exporter will run on port 9112
 
 ## Requirements:
 - Linux 2.4 or newer
 
 ## Usage
-TBD
 
+Example tcpservicenames.yml:
+```yaml
+services: 
+ - {servicename: "google", host: "google.com", "port":"80","metricname":"googlehealthstatus","help":"HealthStatus for Google"}
+
+```
