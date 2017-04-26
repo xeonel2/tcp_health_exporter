@@ -52,16 +52,20 @@ func heartBeat(servicename string, host string, port string) {
 	err = c.CheckAddr(host+":"+port, timeout)
 	switch err {
 	case tcp.ErrTimeout:
-		GaugeMap[servicename].WithLabelValues(hostname, "timeout").Set(1)
+		//timeout
+		GaugeMap[servicename].WithLabelValues(hostname).Set(1)
 
 	case nil:
-		GaugeMap[servicename].WithLabelValues(hostname, "success").Set(0)
+		//success
+		GaugeMap[servicename].WithLabelValues(hostname).Set(0)
 	default:
 		if _, ok := err.(*tcp.ErrConnect); ok {
 			// fmt.Println("Connect to "+host+" failed:", e)
-			GaugeMap[servicename].WithLabelValues(hostname, "connectionfailed").Set(1)
+			//connect to host failed
+			GaugeMap[servicename].WithLabelValues(hostname).Set(1)
 		} else {
-			GaugeMap[servicename].WithLabelValues(hostname, "errorconnecting").Set(1)
+			//error connecting
+			GaugeMap[servicename].WithLabelValues(hostname).Set(1)
 			// fmt.Println("Error occurred while connecting:", err)
 		}
 	}
@@ -79,7 +83,7 @@ func main() {
 	con = new(conf)
 	con.getConf()
 	for _, element := range con.Services {
-		GaugeMap[element.ServiceName] = prometheus.NewGaugeVec(prometheus.GaugeOpts{Name: element.MetricName, Help: element.Help}, []string{"hostname", "reason"})
+		GaugeMap[element.ServiceName] = prometheus.NewGaugeVec(prometheus.GaugeOpts{Name: element.MetricName, Help: element.Help}, []string{"hostname"})
 		prometheus.MustRegister(GaugeMap[element.ServiceName])
 		go heartBeat(element.ServiceName, element.ServiceHost, element.ServicePort)
 	}
