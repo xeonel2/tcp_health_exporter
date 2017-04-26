@@ -13,6 +13,3 @@ Uses TCP Shaker by Tevino. So it's silent and performs TCP handshakes without AC
 ## Usage
 TBD
 
-## TODO:
-
-- Multiple Endpoints to be checked
